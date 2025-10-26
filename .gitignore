@@ -42,3 +42,18 @@
 
 
 neural-network-python
+
+# Build files
+/build/
+build/
+
+# CMake cache and temp files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# IDE stuff
+.vscode/
+.idea/
+*.user
