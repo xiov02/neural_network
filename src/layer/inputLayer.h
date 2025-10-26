@@ -4,15 +4,15 @@
 #include <vector>
 #include <functional>
 #include "../neuron/inputNeuron.h"
+#include "layer.h"
 
-class InputLayer {
+class InputLayer : public Layer {
 public:
-    int id;
     std::vector<InputNeuron*> neuronLayer;
 
     InputLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std::function<float(float)> activationFunction);
 
-    const std::vector<float> forward(const std::vector<float>& inputs);
+    const std::vector<float> forward(const std::vector<float>& inputs) override;
 };
 
 #endif // INPUTLAYER_H

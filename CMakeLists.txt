@@ -13,6 +13,8 @@ add_executable(main
     src/layer/hiddenLayer.cpp
     src/layer/inputLayer.cpp
     src/network/multilayerPerceptron.cpp
+    src/layer/layer.cpp
+    src/network/network.cpp
 )
 
 # Compilation options

@@ -6,14 +6,10 @@
 
 #include "../layer/inputLayer.h"
 #include "../layer/hiddenLayer.h"
+#include "network.h"
 
-class MultilayerPerceptron {
+class MultilayerPerceptron : public Network {
 public:
-    int id;
-    std::vector<HiddenLayer> hiddenLayers;
-    InputLayer inputLayer;
-    HiddenLayer outputLayer;
-
     MultilayerPerceptron(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
 
     const std::vector<float> forward(const std::vector<float>& inputs);
