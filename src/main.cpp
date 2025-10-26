@@ -2,6 +2,9 @@
 #include <cmath>
 
 #include "neuron/neuron.h"
+#include "neuron/inputNeuron.h"
+#include "layer/hiddenLayer.h"
+#include "network/multilayerPerceptron.h"
 
 float sigmoid(float input) {return 1.0f / (1.0f + std::exp(-input));} // Sigmoid function
 float relu(float x) { return x > 0 ? x : 0; } // ReLU Function
@@ -19,5 +22,10 @@ int main() {
     
     printf("Test activation function output for input 0.5: %f\n", neuron.activationFunction(0.5f));
 
+    HiddenLayer hiddenLayer = HiddenLayer(5, x, sigmoid);
+    printf("Hidden Layer ID = %d\n", hiddenLayer.id);
+
+    MultilayerPerceptron mlp = MultilayerPerceptron({3, 4, 2}, relu);
+    printf("Multilayer Perceptron created with %zu hidden layers.\n", mlp.hiddenLayers.size());
     return 0;
-}
+}   

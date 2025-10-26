@@ -9,6 +9,10 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(main
     src/main.cpp
     src/neuron/neuron.cpp
+    src/neuron/inputNeuron.cpp
+    src/layer/hiddenLayer.cpp
+    src/layer/inputLayer.cpp
+    src/network/multilayerPerceptron.cpp
 )
 
 # Compilation options
