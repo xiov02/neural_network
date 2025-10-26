@@ -9,6 +9,8 @@ public:
     float output;
 
     InputNeuron();
+
+    const float forward(float input);
 };
 
 #endif // NEURON_H

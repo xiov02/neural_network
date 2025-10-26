@@ -27,5 +27,13 @@ int main() {
 
     MultilayerPerceptron mlp = MultilayerPerceptron({3, 4, 2}, relu);
     printf("Multilayer Perceptron created with %zu hidden layers.\n", mlp.hiddenLayers.size());
+
+    const std::vector<float>& input = {0.4f, 0.6f, 0.8f};
+    const std::vector<float>& output = mlp.forward(input);
+
+    for (float val : output) {
+        std::cout << "Output: " << val << std::endl;
+    }
+
     return 0;
 }   

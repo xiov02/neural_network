@@ -13,11 +13,12 @@ public:
     float bias;
     float output;
     float score;
-
     // Pointer to activation function
     std::function<float(float)> activationFunction; 
 
     Neuron(int numberOfWeight, std::function<float(float)> activationFunction);
+
+    const float forward(const std::vector<float>& inputs);
 };
 
 #endif // NEURON_H

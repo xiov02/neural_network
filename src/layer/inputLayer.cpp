@@ -9,3 +9,8 @@ InputLayer::InputLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std::f
         neuronLayer[i] = new InputNeuron();
     }
 }
+
+const std::vector<float> InputLayer::forward(const std::vector<float>& inputs) {
+    
+    return inputs;
+}

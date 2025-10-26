@@ -11,3 +11,14 @@ HiddenLayer::HiddenLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std:
         neuronLayer[i] = new Neuron(numberOfWeightsPerNeuron, activationFunction);
     }
 }
+
+const std::vector<float> HiddenLayer::forward(const std::vector<float>& inputs) {
+    std::vector<float> outputs;
+    outputs.reserve(neuronLayer.size());
+
+    for (Neuron* neuron : neuronLayer) {
+        outputs.push_back(neuron->forward(inputs));
+    }
+
+    return outputs;
+}

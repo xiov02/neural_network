@@ -13,6 +13,8 @@ public:
     std::vector<Neuron*> neuronLayer;
 
     HiddenLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std::function<float(float)> activationFunction);
+
+    const std::vector<float> forward(const std::vector<float>& inputs);
 };
 
 #endif // HIDDENLAYER_H

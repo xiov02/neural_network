@@ -23,3 +23,12 @@ Neuron::Neuron(int numberOfWeight, std::function<float(float)> activationFunctio
 
 
 }
+
+const float Neuron::forward(const std::vector<float>& inputs) {
+    float totalInput = bias;
+    for (size_t i = 0; i < weights.size(); ++i) {
+        totalInput += weights[i] * inputs[i];
+    }
+    output = activationFunction(totalInput);
+    return output;
+}

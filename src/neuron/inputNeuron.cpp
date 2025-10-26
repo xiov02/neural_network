@@ -7,3 +7,8 @@ InputNeuron::InputNeuron()
 {
     id = global_id_counter++;
 }
+
+const float InputNeuron::forward(const float input) {
+    output = input;
+    return output;
+}

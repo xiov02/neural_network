@@ -15,6 +15,8 @@ public:
     HiddenLayer outputLayer;
 
     MultilayerPerceptron(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
+
+    const std::vector<float> forward(const std::vector<float>& inputs);
 };
 
 #endif // MULTILAYERPERCEPTRON_H
