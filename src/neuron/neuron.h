@@ -2,6 +2,7 @@
 #define NEURON_H
 
 #include <vector>
+#include <functional>
 
 class Neuron {
 public:
@@ -13,7 +14,10 @@ public:
     float output;
     float score;
 
-    Neuron(int numberOfWeight);
+    // Pointer to activation function
+    std::function<float(float)> activationFunction; 
+
+    Neuron(int numberOfWeight, std::function<float(float)> activationFunction);
 };
 
 #endif // NEURON_H

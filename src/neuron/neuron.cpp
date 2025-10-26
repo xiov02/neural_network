@@ -3,8 +3,8 @@
 
 int Neuron::global_id_counter = 0; // Define and initialize static member
 
-Neuron::Neuron(int numberOfWeight)
-    : output(0.0f), score(0.0f)
+Neuron::Neuron(int numberOfWeight, std::function<float(float)> activationFunction)
+    : output(0.0f), score(0.0f), activationFunction(activationFunction)
 {
     id = global_id_counter++;
     
@@ -20,4 +20,6 @@ Neuron::Neuron(int numberOfWeight)
 
     // Initialize bias with a random value between -1 and 1
     bias = dis(gen);
+
+
 }
