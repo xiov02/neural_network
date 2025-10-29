@@ -10,9 +10,12 @@
 
 class MultilayerPerceptron : public Network {
 public:
+
+    int id2;
+
     MultilayerPerceptron(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
 
-    const std::vector<float> forward(const std::vector<float>& inputs);
+    const std::vector<float> forward(const std::vector<float>& inputs) override;
 };
 
 #endif // MULTILAYERPERCEPTRON_H

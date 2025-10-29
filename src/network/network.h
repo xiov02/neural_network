@@ -17,12 +17,10 @@ public:
     InputLayer inputLayer;
     HiddenLayer outputLayer;
 
-    Network() : id(0), hiddenLayers(), inputLayer(InputLayer(0, 0, [](float x){ return x; })), outputLayer(HiddenLayer(0, 0, [](float x){ return x; })) {}
+    Network(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
 
-    Network(int id, std::vector<HiddenLayer> hiddenLayers, InputLayer inputLayer, HiddenLayer outputLayer)
-        : id(id), hiddenLayers(hiddenLayers), inputLayer(inputLayer), outputLayer(outputLayer) {};
-
-    const std::vector<float> forward(const std::vector<float>& inputs);
+    virtual const std::vector<float> forward(const std::vector<float>& inputs) = 0;
+    
 };
 
 #endif // NETWORK_H
