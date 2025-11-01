@@ -1,5 +1,8 @@
 #include <iostream>
 #include <cmath>
+#include <random>
+#include <algorithm>
+#include <vector>
 
 #include "neuron/neuron.h"
 #include "neuron/inputNeuron.h"
@@ -25,15 +28,13 @@ int main() {
     HiddenLayer hiddenLayer = HiddenLayer(5, x, sigmoid);
     printf("Hidden Layer ID = %d\n", hiddenLayer.id);
 
-    MultilayerPerceptron mlp = MultilayerPerceptron({3, 4, 2}, relu);
+    MultilayerPerceptron mlp = MultilayerPerceptron({3, 4, 2}, sigmoid);
     printf("Multilayer Perceptron created with %zu hidden layers.\n", mlp.hiddenLayers.size());
 
     const std::vector<float>& input = {0.4f, 0.6f, 0.8f};
     const std::vector<float>& output = mlp.forward(input);
 
-    for (float val : output) {
-        std::cout << "Output: " << val << std::endl;
-    }
+    mlp.training({{0.4f, 0.6f, 0.8f, 1.0f, 0.0f}, {0.1f, 0.2f, 0.3f, 0.0f, 1.0f}}, 10, 0.01f);
 
     return 0;
 }   
