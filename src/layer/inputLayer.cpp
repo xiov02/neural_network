@@ -1,6 +1,6 @@
 #include "inputLayer.h"
 
-InputLayer::InputLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std::function<float(float)> activationFunction)
+InputLayer::InputLayer(int numberOfNeurons)
 {
     id = 0;
 
@@ -10,7 +10,6 @@ InputLayer::InputLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std::f
     }
 }
 
-const std::vector<float> InputLayer::forward(const std::vector<float>& inputs) {
-    
+const std::vector<float> InputLayer::forward(const std::vector<float>& inputs) {    
     return inputs;
 }

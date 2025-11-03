@@ -1,13 +1,10 @@
 #ifndef INPUTNEURON_H
 #define INPUTNEURON_H
 
-class InputNeuron {
+#include "neuronBase.h"
+
+class InputNeuron : public NeuronBase {
 public:
-    static int global_id_counter;
-
-    int id;
-    float output;
-
     InputNeuron();
 
     const float forward(float input);

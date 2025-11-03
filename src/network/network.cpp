@@ -6,8 +6,12 @@
 int Network::global_id_counter = 0; // Define and initialize static member
 
 Network::Network(std::vector<int> layerSizes, std::function<float(float)> activationFunction)
-        : inputLayer(layerSizes[0], 0, activationFunction)
+        : inputLayer(layerSizes[0])
     {
-        for (size_t i = 1; i < layerSizes.size(); ++i)
+        for (size_t i = 1; i < layerSizes.size() - 1; ++i) {
             hiddenLayers.emplace_back(layerSizes[i], layerSizes[i - 1], activationFunction);
+        }
+        hiddenLayers.emplace_back(layerSizes[layerSizes.size() - 1], layerSizes[layerSizes.size() - 2], [](float x) { return x; } ); // Output layer with identity activation
+
+
     }

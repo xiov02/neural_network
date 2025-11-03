@@ -22,9 +22,9 @@ public:
 
     virtual const std::vector<float> forward(const std::vector<float>& inputs) = 0;
 
-    virtual void training(std::vector<std::vector<float>> trainingData, int epochs, float learningRate) = 0; 
+    virtual void training(const std::vector<std::vector<float>> trainingData, int epochs, float learningRate) = 0; 
 
-    virtual float computeLoss(const std::vector<float>& predicted, float target) = 0;
+    virtual float computeLoss(const std::vector<float>& predicted, int target) = 0;
 };
 
 #endif // NETWORK_H

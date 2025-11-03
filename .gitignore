@@ -57,3 +57,5 @@ Makefile
 .vscode/
 .idea/
 *.user
+
+data/IRIS.csv

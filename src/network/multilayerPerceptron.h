@@ -13,11 +13,14 @@ public:
 
     MultilayerPerceptron(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
 
+    const std::vector<float> softMax(const std::vector<float>& inputs);
+
     const std::vector<float> forward(const std::vector<float>& inputs) override;
 
-    void training(std::vector<std::vector<float>> trainingData, int epochs, float learningRate) override;
+    void training(const std::vector<std::vector<float>> trainingData, int epochs, float learningRate) override;
 
-    float computeLoss(const std::vector<float>& predicted, float target) override;
+    float computeLoss(const std::vector<float>& predicted, int target) override;
+    
 
 
 };

@@ -15,10 +15,12 @@ add_executable(main
     src/network/multilayerPerceptron.cpp
     src/layer/layer.cpp
     src/network/network.cpp
+    src/data.cpp
+    src/neuron/neuronBase.cpp
 )
 
 # Compilation options
-add_compile_options(-Wall -Wextra -O2)
+add_compile_options(-Wall -Wextra -O2 -g)
 
 # directories for includes 
 target_include_directories(main PRIVATE

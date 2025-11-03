@@ -4,14 +4,12 @@
 #include <vector>
 #include <functional>
 
-class Neuron {
-public:
-    static int global_id_counter;
+#include "neuronBase.h"
 
-    int id;
+class Neuron : public NeuronBase {
+public:
     std::vector<float> weights;
     float bias;
-    float output;
     float score;
     // Pointer to activation function
     std::function<float(float)> activationFunction; 
