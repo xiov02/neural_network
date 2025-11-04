@@ -6,10 +6,14 @@ InputLayer::InputLayer(int numberOfNeurons)
 
     neuronLayer.resize(numberOfNeurons);
     for (int i = 0; i < numberOfNeurons; ++i) {
-        neuronLayer[i] = new InputNeuron();
+        neuronLayer[i] = new InputNeuron(i);
     }
 }
 
-const std::vector<float> InputLayer::forward(const std::vector<float>& inputs) {    
-    return inputs;
+int InputLayer::forward(const std::vector<float>& inputs, std::vector<float>& output) {
+    for (size_t i = 0; i < neuronLayer.size(); ++i) {
+        output[i] = neuronLayer[i]->forward(inputs);
+    }
+    output = inputs;
+    return 0;
 }

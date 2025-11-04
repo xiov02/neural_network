@@ -14,6 +14,8 @@ public:
     int id;
 
     float output;
+
+    virtual const float forward(const std::vector<float>& inputs) = 0;
 };
 
 #endif // NEURONBASE_H

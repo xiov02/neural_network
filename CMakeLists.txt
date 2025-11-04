@@ -20,6 +20,14 @@ add_executable(main
 )
 
 # Compilation options
+
+# comilation for debugging with gdb
+# add_compile_options(-Wall -Wextra -O0 -g)
+
+# comilation for release
+# add_compile_options(-O3)
+
+# comilation for development
 add_compile_options(-Wall -Wextra -O2 -g)
 
 # directories for includes 

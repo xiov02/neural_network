@@ -1,11 +1,12 @@
 #include "inputNeuron.h"
 
-InputNeuron::InputNeuron()
+InputNeuron::InputNeuron(int idNeuron)
     : NeuronBase()
 {
+    idInputNeuron = idNeuron;
 }
 
-const float InputNeuron::forward(const float input) {
-    output = input;
+const float InputNeuron::forward(const std::vector<float>& inputs) {
+    output = inputs[idInputNeuron];
     return output;
 }

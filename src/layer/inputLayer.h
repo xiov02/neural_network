@@ -10,7 +10,7 @@ class InputLayer : public Layer {
 public:
     InputLayer(int numberOfNeurons);
 
-    const std::vector<float> forward(const std::vector<float>& inputs) override;
+    int forward(const std::vector<float>& inputs, std::vector<float>& output) override;
 };
 
 #endif // INPUTLAYER_H

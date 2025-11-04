@@ -5,9 +5,11 @@
 
 class InputNeuron : public NeuronBase {
 public:
-    InputNeuron();
 
-    const float forward(float input);
+    int idInputNeuron;
+    InputNeuron(int idNeuron);
+
+    const float forward(const std::vector<float>& inputs) override;
 };
 
 #endif // NEURON_H

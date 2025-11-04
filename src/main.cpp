@@ -31,6 +31,12 @@ int main() {
 
     printf("Total data samples: %zu\n", trainingData.size());
 
+    std::vector<float> x = mlp.forward({5.1f, 3.5f, 1.4f, 0.2f, 0.0f});
+    printf("Initial forward pass output: [%f, %f, %f]\n", x[0], x[1], x[2]);
+
+    std::vector<float> y = mlp.forward({3.1f, 3.5f, 1.4f, 0.2f, 0.0f});
+    printf("Initial forward pass output: [%f, %f, %f]\n", y[0], y[1], y[2]);
+
     // Train the MLP
     printf("Starting training...\n");
 

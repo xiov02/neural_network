@@ -12,36 +12,35 @@ MultilayerPerceptron::MultilayerPerceptron(
     id = global_id_counter++;
 }
 
-const std::vector<float> MultilayerPerceptron::softMax(const std::vector<float>& inputs) {
-    std::vector<float> expValues(inputs.size());
+int MultilayerPerceptron::softMaxInPlace(std::vector<float>& output) {
     float sumExp = 0.0f;
 
-    for (size_t i = 0; i < inputs.size(); ++i) {
-        expValues[i] = std::exp(inputs[i]);
-        sumExp += expValues[i];
+    for (size_t i = 0; i < output.size(); ++i) {
+        output[i] = std::exp(output[i]);
+        sumExp += output[i];
     }
 
-    for (size_t i = 0; i < expValues.size(); ++i) {
-        expValues[i] /= sumExp;
+    for (size_t i = 0; i < output.size(); ++i) {
+        output[i] /= sumExp;
     }
 
-    return expValues;
+    return 0;
 }
 
 const std::vector<float> MultilayerPerceptron::forward(const std::vector<float>& inputs) {
-    std::vector<float> currentOutputs = inputLayer.forward(inputs);
+    std::vector<float> bufferA, bufferB;
+    bufferA.resize(maxLayerSizes);
+    bufferB.resize(maxLayerSizes);
+    inputLayer.forward(inputs, bufferA);
 
     // Forward through others layers
     for (HiddenLayer& layer : hiddenLayers) {
-        currentOutputs = layer.forward(currentOutputs);
+        layer.forward(bufferA, bufferB);
+        std::swap(bufferA, bufferB);
     }
 
-    // printf("Raw outputs before SoftMax:\n");
-    // for (size_t i = 0; i < currentOutputs.size(); ++i) {
-    //     printf("Output[%zu] = %f\n", i, currentOutputs[i]);
-    // }
-
-    return softMax(currentOutputs);
+    softMaxInPlace(bufferA);
+    return bufferA;
 }
 
 float MultilayerPerceptron::computeLoss(const std::vector<float>& predicted, int target) {
@@ -58,6 +57,9 @@ void MultilayerPerceptron::training(std::vector<std::vector<float>> trainingData
 
     std::random_device rd;
     std::mt19937 g(rd());
+
+    std::vector<float> inputsTemp;
+    inputsTemp.resize(maxLayerSizes);
 
     for (size_t epoch = 0; epoch < epochs; ++epoch) {
 
@@ -79,8 +81,7 @@ void MultilayerPerceptron::training(std::vector<std::vector<float>> trainingData
 
             for (int i = hiddenLayers.size() - 1; i >= 0; --i) {
                 HiddenLayer* layer = &hiddenLayers[i];
-                HiddenLayer* nextLayer = (i < hiddenLayers.size() - 1) ? &hiddenLayers[i + 1] : nullptr;
-
+                HiddenLayer* nextLayer = (i+1 < hiddenLayers.size()) ? &hiddenLayers[i + 1] : nullptr;
 
                 if (nextLayer) {
                     for (size_t j = 0; j < layer->neuronLayer.size(); ++j) {
@@ -93,15 +94,14 @@ void MultilayerPerceptron::training(std::vector<std::vector<float>> trainingData
                     }
                 }
                 else {
-                    for (size_t j = 0; j < output.size(); ++j) {
+                    for (size_t j = 0; j < layer->neuronLayer.size(); ++j) {
                         layer->neuronLayer[j]->score = output[j] - (target==j ? 1 : 0);  // Simplified error
                     }
                 }
-
-                std::vector<float> inputsTemp;
                 
                 if (i > 0) {
-                    inputsTemp = hiddenLayers[i-1].getOutputs(); // Assuming getOutputs() returns std::vector<float> of previous layer outputs
+                    hiddenLayers[i-1].getOutputs(inputsTemp);
+                    // inputsTemp = hiddenLayers[i-1].getOutputsTemp(); // Assuming getOutputs() returns std::vector<float> of previous layer outputs
                 } else {
                     inputsTemp = inputs; // For the first hidden layer, use the original inputs
                 }

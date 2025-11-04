@@ -16,7 +16,7 @@ public:
 
     Neuron(int numberOfWeight, std::function<float(float)> activationFunction);
 
-    const float forward(const std::vector<float>& inputs);
+    const float forward(const std::vector<float>& inputs) override;
 };
 
 #endif // NEURON_H

@@ -17,6 +17,7 @@ public:
     static int global_id_counter;
 
     int id;
+    int maxLayerSizes;
     std::vector<HiddenLayer> hiddenLayers;
     InputLayer inputLayer;
 

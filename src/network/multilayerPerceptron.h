@@ -13,7 +13,7 @@ public:
 
     MultilayerPerceptron(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
 
-    const std::vector<float> softMax(const std::vector<float>& inputs);
+    int softMaxInPlace(std::vector<float>& output);
 
     const std::vector<float> forward(const std::vector<float>& inputs) override;
 

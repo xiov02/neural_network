@@ -10,9 +10,10 @@ public:
     int id;
     std::vector<NeuronBase*> neuronLayer;
 
-    virtual const std::vector<float> forward(const std::vector<float>& inputs) = 0;
+    virtual int forward(const std::vector<float>& inputs, std::vector<float>& output) = 0;
 
-    std::vector<float> getOutputs();
+    int getOutputs(std::vector<float>& outputs);
+    std::vector<float> getOutputsTemp();
 };
 
 #endif // LAYER_H
