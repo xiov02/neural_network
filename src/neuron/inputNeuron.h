@@ -9,7 +9,7 @@ public:
     int idInputNeuron;
     InputNeuron(int idNeuron);
 
-    const float forward(const std::vector<float>& inputs) override;
+    const double forward(const std::vector<double>& inputs) override;
 };
 
 #endif // NEURON_H

@@ -18,13 +18,13 @@ std::vector<Flower> data(std::string filePath) {
         return flowers;
     }
 
-    float maxSepalLength, maxSepalWidth, maxPetalLength, maxPetalWidth = 0.0f;
+    double maxSepalLength, maxSepalWidth, maxPetalLength, maxPetalWidth = 0.0f;
 
     std::getline(file, ligne); // Ignorer l'en-tête
     while (std::getline(file, ligne)) {
         std::stringstream ss(ligne);
         std::string specie, sepalLengthStr, sepalWidthStr, petalLengthStr, petalWidthStr;
-        float sepalLength, sepalWidth, petalLength, petalWidth;
+        double sepalLength, sepalWidth, petalLength, petalWidth;
 
         std::getline(ss, sepalLengthStr, ',');
         std::getline(ss, sepalWidthStr, ',');
@@ -54,11 +54,11 @@ std::vector<Flower> data(std::string filePath) {
     return flowers;
 }
 
-std::vector<std::vector<float>> prepareTrainingData(const std::vector<Flower>& flowers) {
-    std::vector<std::vector<float>> trainingData;
+std::vector<std::vector<double>> prepareTrainingData(const std::vector<Flower>& flowers) {
+    std::vector<std::vector<double>> trainingData;
 
     for (const auto& flower : flowers) {
-        std::vector<float> dataPoint;
+        std::vector<double> dataPoint;
         dataPoint.push_back(flower.sepal_length / 7.9f);
         dataPoint.push_back(flower.sepal_width / 4.4f);
         dataPoint.push_back(flower.petal_length / 6.9f);

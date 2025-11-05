@@ -10,7 +10,7 @@ InputLayer::InputLayer(int numberOfNeurons)
     }
 }
 
-int InputLayer::forward(const std::vector<float>& inputs, std::vector<float>& output) {
+int InputLayer::forward(const std::vector<double>& inputs, std::vector<double>& output) {
     for (size_t i = 0; i < neuronLayer.size(); ++i) {
         output[i] = neuronLayer[i]->forward(inputs);
     }

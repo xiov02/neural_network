@@ -5,7 +5,7 @@
 
 int Network::global_id_counter = 0; // Define and initialize static member
 
-Network::Network(std::vector<int> layerSizes, std::function<float(float)> activationFunction)
+Network::Network(std::vector<int> layerSizes, std::function<double(double)> activationFunction)
         : inputLayer(layerSizes[0])
     {
         maxLayerSizes = layerSizes[0];
@@ -13,7 +13,7 @@ Network::Network(std::vector<int> layerSizes, std::function<float(float)> activa
             hiddenLayers.emplace_back(layerSizes[i], layerSizes[i - 1], activationFunction);
             maxLayerSizes = std::max(maxLayerSizes, layerSizes[i]);
         }
-        hiddenLayers.emplace_back(layerSizes[layerSizes.size() - 1], layerSizes[layerSizes.size() - 2], [](float x) { return x; } ); // Output layer with identity activation
+        hiddenLayers.emplace_back(layerSizes[layerSizes.size() - 1], layerSizes[layerSizes.size() - 2], [](double x) { return x; } ); // Output layer with identity activation
         maxLayerSizes = std::max(maxLayerSizes, layerSizes[layerSizes.size() - 1]);
 
         printf("Max layer size determined: %d\n", maxLayerSizes);

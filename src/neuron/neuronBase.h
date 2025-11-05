@@ -13,9 +13,9 @@ public:
     static int global_id_counter;
     int id;
 
-    float output;
+    double output;
 
-    virtual const float forward(const std::vector<float>& inputs) = 0;
+    virtual const double forward(const std::vector<double>& inputs) = 0;
 };
 
 #endif // NEURONBASE_H

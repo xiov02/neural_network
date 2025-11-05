@@ -2,7 +2,7 @@
 
 int HiddenLayer::global_id_counter = 1; // Define and initialize static member
 
-HiddenLayer::HiddenLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std::function<float(float)> activationFunction)
+HiddenLayer::HiddenLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std::function<double(double)> activationFunction)
 {
     id = global_id_counter++;
 
@@ -12,7 +12,7 @@ HiddenLayer::HiddenLayer(int numberOfNeurons, int numberOfWeightsPerNeuron, std:
     }
 }
 
-int HiddenLayer::forward(const std::vector<float>& inputs, std::vector<float>& output) {
+int HiddenLayer::forward(const std::vector<double>& inputs, std::vector<double>& output) {
 
     for (size_t i = 0; i < neuronLayer.size(); ++i) {
         output[i] = neuronLayer[i]->forward(inputs);

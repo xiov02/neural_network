@@ -9,7 +9,7 @@
 
 class Network {
 protected:
-    Network(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
+    Network(std::vector<int> layerSizes, std::function<double(double)> activationFunction);
 
 public:
     virtual ~Network() = default;
@@ -21,11 +21,11 @@ public:
     std::vector<HiddenLayer> hiddenLayers;
     InputLayer inputLayer;
 
-    virtual const std::vector<float> forward(const std::vector<float>& inputs) = 0;
+    virtual const std::vector<double> forward(const std::vector<double>& inputs) = 0;
 
-    virtual void training(const std::vector<std::vector<float>> trainingData, int epochs, float learningRate) = 0; 
+    virtual void training(const std::vector<std::vector<double>> trainingData, int epochs, double learningRate) = 0; 
 
-    virtual float computeLoss(const std::vector<float>& predicted, int target) = 0;
+    virtual double computeLoss(const std::vector<double>& predicted, int target) = 0;
 };
 
 #endif // NETWORK_H

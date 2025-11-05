@@ -3,8 +3,8 @@
 
 class activationFunction {
 public:
-    virtual float function (float x) = 0;
-    virtual float derivative (float x) = 0;
+    virtual double function (double x) = 0;
+    virtual double derivative (double x) = 0;
 };
 
 #endif // ACTIVATION_H

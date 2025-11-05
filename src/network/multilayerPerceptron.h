@@ -11,15 +11,15 @@
 class MultilayerPerceptron : public Network {
 public:
 
-    MultilayerPerceptron(std::vector<int> layerSizes, std::function<float(float)> activationFunction);
+    MultilayerPerceptron(std::vector<int> layerSizes, std::function<double(double)> activationFunction);
 
-    int softMaxInPlace(std::vector<float>& output);
+    int softMaxInPlace(std::vector<double>& output);
 
-    const std::vector<float> forward(const std::vector<float>& inputs) override;
+    const std::vector<double> forward(const std::vector<double>& inputs) override;
 
-    void training(const std::vector<std::vector<float>> trainingData, int epochs, float learningRate) override;
+    void training(const std::vector<std::vector<double>> trainingData, int epochs, double learningRate) override;
 
-    float computeLoss(const std::vector<float>& predicted, int target) override;
+    double computeLoss(const std::vector<double>& predicted, int target) override;
     
 
 

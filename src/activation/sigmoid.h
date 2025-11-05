@@ -5,8 +5,8 @@
 
 class Sigmoid : public activationFunction {
 public:
-    float function(float x) override;
-    float derivative(float x) override;
+    double function(double x) override;
+    double derivative(double x) override;
 
     Sigmoid();
 };

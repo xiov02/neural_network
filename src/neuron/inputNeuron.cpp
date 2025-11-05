@@ -6,7 +6,7 @@ InputNeuron::InputNeuron(int idNeuron)
     idInputNeuron = idNeuron;
 }
 
-const float InputNeuron::forward(const std::vector<float>& inputs) {
+const double InputNeuron::forward(const std::vector<double>& inputs) {
     output = inputs[idInputNeuron];
     return output;
 }

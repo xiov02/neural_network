@@ -8,15 +8,15 @@
 
 class Neuron : public NeuronBase {
 public:
-    std::vector<float> weights;
-    float bias;
-    float score;
+    std::vector<double> weights;
+    double bias;
+    double score;
     // Pointer to activation function
-    std::function<float(float)> activationFunction; 
+    std::function<double(double)> activationFunction; 
 
-    Neuron(int numberOfWeight, std::function<float(float)> activationFunction);
+    Neuron(int numberOfWeight, std::function<double(double)> activationFunction);
 
-    const float forward(const std::vector<float>& inputs) override;
+    const double forward(const std::vector<double>& inputs) override;
 };
 
 #endif // NEURON_H
