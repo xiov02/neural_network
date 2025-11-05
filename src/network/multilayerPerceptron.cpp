@@ -60,6 +60,7 @@ void MultilayerPerceptron::training(std::vector<std::vector<float>> trainingData
 
     std::vector<float> inputsTemp;
     inputsTemp.resize(maxLayerSizes);
+    printf("%d", inputsTemp.size());
 
     for (size_t epoch = 0; epoch < epochs; ++epoch) {
 
@@ -101,14 +102,13 @@ void MultilayerPerceptron::training(std::vector<std::vector<float>> trainingData
                 
                 if (i > 0) {
                     hiddenLayers[i-1].getOutputs(inputsTemp);
-                    // inputsTemp = hiddenLayers[i-1].getOutputsTemp(); // Assuming getOutputs() returns std::vector<float> of previous layer outputs
                 } else {
-                    inputsTemp = inputs; // For the first hidden layer, use the original inputs
+                    std::copy(inputs.begin(), inputs.end(), inputsTemp.begin());
                 }
 
                 for (Neuron* neuron : layer->neuronLayer) {
                     // float gradient = neuron->score * neuron->output * (1 - neuron->output); // Sigmoid derivative
-                    for (size_t w = 0; w < inputsTemp.size(); ++w) {
+                    for (size_t w = 0; w < neuron->weights.size(); ++w) {
                         neuron->weights[w] -= learningRate * neuron->score * inputsTemp[w]; // Update weights
                     }
                     neuron->bias -= learningRate * neuron->score; // Update bias

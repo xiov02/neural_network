@@ -6,12 +6,3 @@ int Layer::getOutputs(std::vector<float>& outputs) {
     }
     return 0;
 }
-
-std::vector<float> Layer::getOutputsTemp() {
-    std::vector<float> outputs;
-    for (const auto& neuronPtr : this->neuronLayer) {
-        outputs.push_back(neuronPtr->output);
-    }
-
-    return outputs;
-}

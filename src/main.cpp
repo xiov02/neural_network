@@ -26,7 +26,7 @@ int main() {
     std::mt19937 g(rd());
     std::shuffle(dataPrepared.begin(), dataPrepared.end(), g);
 
-    std::vector<std::vector<float>> trainingData(dataPrepared.begin(), dataPrepared.end() - 20);
+    std::vector<std::vector<float>> trainingData(dataPrepared.begin(), dataPrepared.end() - 37);
     std::vector<std::vector<float>> testData(dataPrepared.end() - 37, dataPrepared.end());
 
     printf("Total data samples: %zu\n", trainingData.size());
@@ -40,7 +40,7 @@ int main() {
     // Train the MLP
     printf("Starting training...\n");
 
-    mlp.training(trainingData, 300, 0.05f);
+    mlp.training(trainingData, 500, 0.05f);
 
     //verification on test data
     int correct = 0;
