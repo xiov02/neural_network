@@ -14,6 +14,5 @@ int InputLayer::forward(const std::vector<double>& inputs, std::vector<double>& 
     for (size_t i = 0; i < neuronLayer.size(); ++i) {
         output[i] = neuronLayer[i]->forward(inputs);
     }
-    output = inputs;
     return 0;
 }

@@ -1,11 +1,13 @@
 #include <random>
 #include <algorithm>
 
+#include <string>
+
 #include "multilayerPerceptron.h"
 
 MultilayerPerceptron::MultilayerPerceptron(
     std::vector<int> layerSizes,
-    std::function<double(double)> activationFunction
+    const std::string activationFunction
 )
     : Network(layerSizes, activationFunction)
 {
@@ -13,19 +15,20 @@ MultilayerPerceptron::MultilayerPerceptron(
 }
 
 int MultilayerPerceptron::softMaxInPlace(std::vector<double>& output) {
+    double maxVal = *std::max_element(output.begin(), output.end());
     double sumExp = 0.0f;
-
-    for (size_t i = 0; i < output.size(); ++i) {
-        output[i] = std::exp(output[i]);
+    int n = hiddenLayers.back().getNeuronSize();
+    // printf("Number of output Neuron : %d", n);
+    for (size_t i =0; i<n; ++i) {
+        output[i] = std::exp(output[i]);  // stabilité numérique
         sumExp += output[i];
     }
-
-    for (size_t i = 0; i < output.size(); ++i) {
+    for (size_t i =0; i<n; ++i) {
         output[i] /= sumExp;
     }
-
     return 0;
 }
+
 
 const std::vector<double> MultilayerPerceptron::forward(const std::vector<double>& inputs) {
     std::vector<double> bufferA, bufferB;
@@ -39,8 +42,20 @@ const std::vector<double> MultilayerPerceptron::forward(const std::vector<double
         std::swap(bufferA, bufferB);
     }
 
+
+    // for (size_t i = 0; i<bufferA.size(); ++i) {
+    //     printf("%d : %f, ",i, bufferA[i]);
+    // }
+    // printf("\n");
+
     softMaxInPlace(bufferA);
-    return bufferA;
+
+    // for (size_t i = 0; i<bufferA.size(); ++i) {
+    //     printf("%d : %f, ",i, bufferA[i]);
+    // }
+    // printf("\n");
+    std::vector<double> output(bufferA.begin(), bufferA.begin() + 3);
+    return output;
 }
 
 double MultilayerPerceptron::computeLoss(const std::vector<double>& predicted, int target) {
@@ -48,73 +63,97 @@ double MultilayerPerceptron::computeLoss(const std::vector<double>& predicted, i
     double p = predicted[target];
 
     // Éviter log(0)
-    double loss = -std::log(p + 1e-15f);
+    double loss = -std::log(p + 1e-9f);
+
+    // printf("predicted : %f, loss : %f \n", p, loss);
 
     return loss;
 }
 
-void MultilayerPerceptron::training(std::vector<std::vector<double>> trainingData, int epochs, double learningRate) {
-
+void MultilayerPerceptron::training(
+    std::vector<std::vector<double>> trainingData,
+    int epochs,
+    double learningRate
+) {
     std::random_device rd;
     std::mt19937 g(rd());
 
-    std::vector<double> inputsTemp;
-    inputsTemp.resize(maxLayerSizes);
-    printf("%d", inputsTemp.size());
+    std::vector<double> inputsTemp(maxLayerSizes);
+    double d = 0.0;
+    int compte = 0;
 
     for (size_t epoch = 0; epoch < epochs; ++epoch) {
-
-        //shuffle training data for each epoch
         std::shuffle(trainingData.begin(), trainingData.end(), g);
 
-        double epochLoss = 0.0f;
+        double epochLoss = 0.0;
 
         for (const auto& dataPoint : trainingData) {
-            // Assuming the last element is the target output
+            // ---- [1] Forward ----
             std::vector<double> inputs(dataPoint.begin(), dataPoint.end() - 1);
             int target = static_cast<int>(dataPoint.back());
-
             const std::vector<double> output = forward(inputs);
-
             double loss = computeLoss(output, target);
-            // printf("Output: %f\n", output[0]);
             epochLoss += loss;
 
+            // ---- [2] Backward pass (calcul des deltas / scores) ----
             for (int i = hiddenLayers.size() - 1; i >= 0; --i) {
                 HiddenLayer* layer = &hiddenLayers[i];
-                HiddenLayer* nextLayer = (i+1 < hiddenLayers.size()) ? &hiddenLayers[i + 1] : nullptr;
+                HiddenLayer* nextLayer = (i + 1 < hiddenLayers.size()) ? &hiddenLayers[i + 1] : nullptr;
 
                 if (nextLayer) {
+                    // Couches cachées : delta = somme (w_jk * delta_k) * f'(output)
                     for (size_t j = 0; j < layer->neuronLayer.size(); ++j) {
-                        double error = 0.0f;
-                        for (Neuron* nextNeuron : nextLayer->neuronLayer) {
-                            error += nextNeuron-> weights[j] * nextNeuron->score;
-                        }
-                        double derivative = layer->neuronLayer[j]->output * (1 - layer->neuronLayer[j]->output); // Sigmoid derivative
-                        layer->neuronLayer[j]->score = error * derivative;
-                    }
-                }
-                else {
-                    for (size_t j = 0; j < layer->neuronLayer.size(); ++j) {
-                        layer->neuronLayer[j]->score = output[j] - (target==j ? 1 : 0);  // Simplified error
-                    }
-                }
-                
-                if (i > 0) {
-                    hiddenLayers[i-1].getOutputs(inputsTemp);
-                } else {
-                    std::copy(inputs.begin(), inputs.end(), inputsTemp.begin());
-                }
+                        double error = 0.0;
+                        for (Neuron* nextNeuron : nextLayer->neuronLayer)
+                            error += nextNeuron->weights[j] * nextNeuron->score;
 
-                for (Neuron* neuron : layer->neuronLayer) {
-                    // double gradient = neuron->score * neuron->output * (1 - neuron->output); // Sigmoid derivative
-                    for (size_t w = 0; w < neuron->weights.size(); ++w) {
-                        neuron->weights[w] -= learningRate * neuron->score * inputsTemp[w]; // Update weights
+                        double derivative = layer->neuronLayer[j]->output * (1.0 - layer->neuronLayer[j]->output);
+                        layer->neuronLayer[j]->score = error * derivative;
+                        d += layer->neuronLayer[j]->score;
+                        compte++;
                     }
-                    neuron->bias -= learningRate * neuron->score; // Update bias
+                } else {
+                    // Couche de sortie : delta = (y_pred - y_true)
+                    for (size_t j = 0; j < layer->neuronLayer.size(); ++j)
+                        layer->neuronLayer[j]->score = output[j] - ((target == static_cast<int>(j)) ? 1.0 : 0.0);
+                }
+            }
+
+            // ---- [3] Mise à jour des poids ----
+            for (size_t i = 0; i < hiddenLayers.size(); ++i) {
+                HiddenLayer* layer = &hiddenLayers[i];
+
+                // Entrées de cette couche = sorties de la précédente
+                if (i == 0)
+                    std::copy(inputs.begin(), inputs.end(), inputsTemp.begin());
+                else
+                    hiddenLayers[i - 1].getOutputs(inputsTemp);
+
+                // Update poids + biais
+                for (Neuron* neuron : layer->neuronLayer) {
+                    for (size_t w = 0; w < neuron->weights.size(); ++w)
+                        neuron->weights[w] -= learningRate * neuron->score * inputsTemp[w];
+
+                    neuron->bias -= learningRate * neuron->score;
                 }
             }
         }
-        printf("Epoch %zu, Loss: %f\n", epoch + 1, epochLoss / trainingData.size());
+
+        printf("Epoch %zu - Loss moyenne: %.6f - Score moyen: %.6f\n",
+               epoch + 1, epochLoss / trainingData.size(), d / std::max(1, compte));
+    }
+}
+
+
+void MultilayerPerceptron::drawNetwork() {
+    for (HiddenLayer layer : hiddenLayers) {
+        printf("Hidden Layer %d : \n", layer.id);
+        for (Neuron *neuron: layer.neuronLayer) {
+            printf("\tNeuron number %d : ", neuron->id);
+            for (double weight: neuron->weights) {
+                printf("%f, ", weight);
+            }
+            printf("\n");
+        }
     }
 }

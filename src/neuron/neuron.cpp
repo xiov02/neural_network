@@ -1,7 +1,9 @@
 #include "neuron.h"
 #include <random>
 
-Neuron::Neuron(int numberOfWeight, std::function<double(double)> activationFunction)
+
+
+Neuron::Neuron(int numberOfWeight, ActivationFunction activationFunction)
     : NeuronBase(), activationFunction(activationFunction)
 {
     // Initialize weights vector with random values between -1 and 1
@@ -23,6 +25,6 @@ const double Neuron::forward(const std::vector<double>& inputs) {
     for (size_t i = 0; i < weights.size(); ++i) {
         totalInput += weights[i] * inputs[i];
     }
-    output = activationFunction(totalInput);
+    output = activationFunction.function(totalInput);
     return output;
 }

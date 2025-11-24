@@ -17,6 +17,7 @@ add_executable(main
     src/network/network.cpp
     src/data.cpp
     src/neuron/neuronBase.cpp
+    src/activation/activation.cpp
 )
 
 # Compilation options

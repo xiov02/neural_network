@@ -5,6 +5,7 @@
 #include <functional>
 
 #include "neuronBase.h"
+#include "../activation/activation.h"
 
 class Neuron : public NeuronBase {
 public:
@@ -12,9 +13,9 @@ public:
     double bias;
     double score;
     // Pointer to activation function
-    std::function<double(double)> activationFunction; 
+    ActivationFunction activationFunction; 
 
-    Neuron(int numberOfWeight, std::function<double(double)> activationFunction);
+    Neuron(int numberOfWeight, ActivationFunction activationFunction);
 
     const double forward(const std::vector<double>& inputs) override;
 };

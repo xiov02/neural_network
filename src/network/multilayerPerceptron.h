@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <functional>
+#include <string>
 
 #include "../layer/inputLayer.h"
 #include "../layer/hiddenLayer.h"
@@ -11,7 +12,7 @@
 class MultilayerPerceptron : public Network {
 public:
 
-    MultilayerPerceptron(std::vector<int> layerSizes, std::function<double(double)> activationFunction);
+    MultilayerPerceptron(std::vector<int> layerSizes, const std::string activationFunction);
 
     int softMaxInPlace(std::vector<double>& output);
 
@@ -21,6 +22,7 @@ public:
 
     double computeLoss(const std::vector<double>& predicted, int target) override;
     
+    void drawNetwork();
 
 
 };

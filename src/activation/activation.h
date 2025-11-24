@@ -1,10 +1,17 @@
 #ifndef ACTIVATION_H
 #define ACTIVATION_H
 
-class activationFunction {
+#include <functional>
+#include <string>
+
+class ActivationFunction {
 public:
-    virtual double function (double x) = 0;
-    virtual double derivative (double x) = 0;
+
+    std::function<double(double)> function;
+    std::function<double(double)> derivative;
+
+    // constructor
+    ActivationFunction(const std::string activativeFunctionName);
 };
 
 #endif // ACTIVATION_H

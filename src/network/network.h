@@ -3,13 +3,15 @@
 
 #include <vector>
 #include <functional>
+#include <string>
 
 #include "../layer/inputLayer.h"
 #include "../layer/hiddenLayer.h"
+#include "../activation/activation.h"
 
 class Network {
 protected:
-    Network(std::vector<int> layerSizes, std::function<double(double)> activationFunction);
+    Network(std::vector<int> layerSizes, const std::string activationFunction);
 
 public:
     virtual ~Network() = default;
