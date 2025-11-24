@@ -18,7 +18,7 @@ int MultilayerPerceptron::softMaxInPlace(std::vector<double>& output) {
     double maxVal = *std::max_element(output.begin(), output.end());
     double sumExp = 0.0f;
     int n = hiddenLayers.back().getNeuronSize();
-    // printf("Number of output Neuron : %d", n);
+
     for (size_t i =0; i<n; ++i) {
         output[i] = std::exp(output[i]);  // stabilité numérique
         sumExp += output[i];
@@ -42,19 +42,9 @@ const std::vector<double> MultilayerPerceptron::forward(const std::vector<double
         std::swap(bufferA, bufferB);
     }
 
-
-    // for (size_t i = 0; i<bufferA.size(); ++i) {
-    //     printf("%d : %f, ",i, bufferA[i]);
-    // }
-    // printf("\n");
-
     softMaxInPlace(bufferA);
 
-    // for (size_t i = 0; i<bufferA.size(); ++i) {
-    //     printf("%d : %f, ",i, bufferA[i]);
-    // }
-    // printf("\n");
-    std::vector<double> output(bufferA.begin(), bufferA.begin() + 3);
+    std::vector<double> output(bufferA.begin(), bufferA.begin() + hiddenLayers.back().getNeuronSize());
     return output;
 }
 
@@ -64,8 +54,6 @@ double MultilayerPerceptron::computeLoss(const std::vector<double>& predicted, i
 
     // Éviter log(0)
     double loss = -std::log(p + 1e-9f);
-
-    // printf("predicted : %f, loss : %f \n", p, loss);
 
     return loss;
 }
@@ -107,7 +95,7 @@ void MultilayerPerceptron::training(
                         for (Neuron* nextNeuron : nextLayer->neuronLayer)
                             error += nextNeuron->weights[j] * nextNeuron->score;
 
-                        double derivative = layer->neuronLayer[j]->output * (1.0 - layer->neuronLayer[j]->output);
+                        double derivative = layer->neuronLayer[j]->activationFunction.derivative(layer->neuronLayer[j]->linearOutput);
                         layer->neuronLayer[j]->score = error * derivative;
                         d += layer->neuronLayer[j]->score;
                         compte++;

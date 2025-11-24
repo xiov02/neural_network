@@ -24,7 +24,6 @@ public:
     
     void drawNetwork();
 
-
 };
 
 #endif // MULTILAYERPERCEPTRON_H

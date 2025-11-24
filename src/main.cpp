@@ -10,9 +10,6 @@
 #include "network/multilayerPerceptron.h"
 #include "data.h"
 
-double sigmoid(double input) {return 1.0f / (1.0f + std::exp(-input));} // Sigmoid function
-double relu(double x) { return x > 0 ? x : 0; } // ReLU Function
-
 int main() {
 
     MultilayerPerceptron mlp = MultilayerPerceptron({4, 8, 3}, "sigmoid");

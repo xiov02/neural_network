@@ -10,7 +10,6 @@ public:
     std::function<double(double)> function;
     std::function<double(double)> derivative;
 
-    // constructor
     ActivationFunction(const std::string activativeFunctionName);
 };
 

@@ -18,6 +18,7 @@ Neuron::Neuron(int numberOfWeight, ActivationFunction activationFunction)
 
     // Initialize bias with a random value between -1 and 1
     bias = dis(gen);
+    linearOutput = 0.0f;
 }
 
 const double Neuron::forward(const std::vector<double>& inputs) {
@@ -25,6 +26,7 @@ const double Neuron::forward(const std::vector<double>& inputs) {
     for (size_t i = 0; i < weights.size(); ++i) {
         totalInput += weights[i] * inputs[i];
     }
+    linearOutput = totalInput;
     output = activationFunction.function(totalInput);
     return output;
 }

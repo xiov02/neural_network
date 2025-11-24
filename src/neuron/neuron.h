@@ -12,6 +12,7 @@ public:
     std::vector<double> weights;
     double bias;
     double score;
+    double linearOutput;
     // Pointer to activation function
     ActivationFunction activationFunction; 
 

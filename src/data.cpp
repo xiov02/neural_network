@@ -67,19 +67,10 @@ std::vector<std::vector<double>> prepareTrainingData(const std::vector<Flower>& 
         // One-hot encoding for species
         if (flower.specie == "Iris-setosa") {
             dataPoint.push_back(0.0f);
-            // dataPoint.push_back(1.0f);
-            // dataPoint.push_back(0.0f);
-            // dataPoint.push_back(0.0f);
         } else if (flower.specie == "Iris-versicolor") {
             dataPoint.push_back(1.0f);
-            // dataPoint.push_back(0.0f);
-            // dataPoint.push_back(1.0f);
-            // dataPoint.push_back(0.0f);
         } else if (flower.specie == "Iris-virginica") {
             dataPoint.push_back(2.0f);
-            // dataPoint.push_back(0.0f);
-            // dataPoint.push_back(0.0f);
-            // dataPoint.push_back(1.0f);
         }
 
         trainingData.push_back(dataPoint);
